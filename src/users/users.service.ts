@@ -9,19 +9,23 @@ import { User } from './schema/user.schema';
 export class UsersService {
   constructor(
     @InjectModel(User.name)
-    private readonly userModel: Model<User>
+    private userModel: Model<User>,
   ) {}
 
   create(createUserDto: CreateUserDto) {
     return this.userModel.create(createUserDto);
   }
 
-  findAll() {
-    return this.userModel.find();
+  async findAll() {
+    return this.userModel.find().populate('expenses', 'name amount');
   }
 
-  findOne(id: string) {
-    return this.userModel.findById(id);
+  async findOne(id: string) {
+    const user = await this.userModel.findById(id).populate('expenses');
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {

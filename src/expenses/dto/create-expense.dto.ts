@@ -1,9 +1,8 @@
-
 import { IsNotEmpty, IsNumber, Min } from 'class-validator';
 
 export class CreateExpenseDto {
   @IsNotEmpty()
-  name: string; 
+  name: string;
 
   @IsNotEmpty()
   description: string;
@@ -13,5 +12,5 @@ export class CreateExpenseDto {
   amount: number;
 
   @IsNotEmpty()
-  date: Date; 
+  date: Date;
 }
